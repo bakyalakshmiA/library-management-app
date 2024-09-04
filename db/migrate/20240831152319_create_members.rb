@@ -5,9 +5,10 @@ class CreateMembers < ActiveRecord::Migration[5.2]
       t.string :email, null: false, index: { unique: true }
       t.bigint :phone_number
       t.boolean :active, default: true
-      t.integer :member_id, index: true
+      t.integer :member_id, null: false, index: { unique: true }
       t.datetime :started_at
       t.datetime :ended_at
+
       t.timestamps
     end
   end
