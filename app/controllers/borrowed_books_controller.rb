@@ -1,2 +1,0 @@
-class BorrowedBooksController < ApplicationController
-end

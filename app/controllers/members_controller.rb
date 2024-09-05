@@ -1,6 +1,5 @@
 class MembersController < ApplicationController
-#     before_action :set_current_member
-#     before_action :test, only [:create]
+    before_action :set_member, only: [:show , :update]
 
     rescue_from ActionController::ParameterMissing, with: :handle_parameter_missing
     rescue_from ActiveRecord::RecordNotFound, with: :handle_record_not_found
@@ -33,25 +32,19 @@ class MembersController < ApplicationController
     end
 
     def update
-        begin
-            member = Member.find(params[:id])
-            member_params = params.require(:member).permit(
-              :phone_number
-            )
-            member.update(member_params)
-            render json: member
-        rescue ActiveRecord::RecordNotFound => e
-            render json:{ error: member.errors }, status: :e.status
-        end
+        member_params = params.require(:member).permit(
+          :phone_number
+        )
+        @member.update(member_params)
+        render json: @member, status: :ok
     end
 
     def show
-        begin
-            member = Member.find(params[:id])
-            render json: member, status: :ok
-        rescue ActiveRecord::RecordNotFound => e
-            render json: { error: 'Member not found' }, status: :not_found
-        end
+        render json: @member, status: :ok
+    end
+
+    def set_member
+        @member = Member.find_by(id: params[:id])
     end
 
     private
